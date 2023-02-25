@@ -33,48 +33,58 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedButtonMod();
-	afx_msg void OnBnClickedButtonRdev();
 	afx_msg void OnBnClickedButtonSeven();
 	afx_msg void OnBnClickedButtonFour();
 	afx_msg void OnBnClickedButtonOne();
 	afx_msg void OnBnClickedButtonChsign();
-	afx_msg void OnBnClickedButtonDelelem();
-	afx_msg void OnBnClickedButtonSqr();
+	afx_msg void OnBnClickedButtonDel();
 	afx_msg void OnBnClickedButtonEight();
 	afx_msg void OnBnClickedButtonFive();
 	afx_msg void OnBnClickedButtonTwo();
 	afx_msg void OnBnClickedButtonZero();
-	afx_msg void OnBnClickedButtonDelall();
-	afx_msg void OnBnClickedButtonSqrt();
 	afx_msg void OnBnClickedButtonNine();
 	afx_msg void OnBnClickedButtonSix();
 	afx_msg void OnBnClickedButtonThree();
 	afx_msg void OnBnClickedButtonPoint();
-	afx_msg void OnBnClickedButtonDelnum();
 	afx_msg void OnBnClickedButtonDevide();
 	afx_msg void OnBnClickedButtonMultiply();
 	afx_msg void OnBnClickedButtonMinus();
 	afx_msg void OnBnClickedButtonPlus();
 	afx_msg void OnBnClickedButtonEqual();
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+
 private:
 	CString curr_num;
-	CString prev_oper;
-	
 	CString last_oper;
+
+	CString last_pressed_button;
 
 	double lvalue;
 	double rvalue;
-	double tmp_res;
-
 	double prev_rvalue;
-	bool IsEqLast;
-	bool IsEqualLast;
-	bool IsFastOperation;
+	double tmp_res;
 	
 	void UpdateEditor(CString InputNum);
 	void UpdateOperation(CString Oper);
 	void DoFastOperation(CString Oper);
 	double DoCalculation(double lnum, double rnum, CString last_oper);
+	bool IsLastOperation();
+	
+	COLORREF ButtonColorPlus;
+	COLORREF ButtonColorMinus;
+	COLORREF ButtonColorDevide;
+	COLORREF ButtonColorMultiply;
 
-	CString GetCorrectNumFromDouble(double num);
+	COLORREF ButtonCalcOperNotPressed;
+	COLORREF ButtonCalcOperPresssed;
+
+	COLORREF ButtonOtherOper;
+public:
+	CMFCButton ButtonCntlPlus;
+	CMFCButton ButtonCntlMinus;
+	CMFCButton ButtonCntlDevide;
+	CMFCButton ButtonCntlMultiply;
+	CMFCButton ButtonCntlChSign;
+	CMFCButton ButtonCntlMod;
+	CMFCButton ButtonCntlDelel;
 };

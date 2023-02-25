@@ -53,17 +53,28 @@ END_MESSAGE_MAP()
 
 CCalculatorDlg::CCalculatorDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CALCULATOR_DIALOG, pParent)
-	, curr_num(_T("0")), IsEqLast(false), prev_oper(_T("")), last_oper(_T(""))
-	, IsEqualLast(false), prev_rvalue(0), IsFastOperation(false)
+	, curr_num(_T("0")), last_oper(_T(""))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+
+	ButtonCalcOperNotPressed = RGB(255, 180, 0);
+	ButtonCalcOperPresssed = RGB(255, 120, 0);;
+	ButtonOtherOper = RGB(60, 60, 60);
+
+	ButtonColorPlus = ButtonColorMinus = ButtonColorDevide = ButtonColorMultiply = ButtonCalcOperNotPressed;
 }
 
 void CCalculatorDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_CALC_TMP, curr_num);
-	DDX_Text(pDX, IDC_CALC_OPER, prev_oper);
+	DDX_Control(pDX, IDC_BUTTON_PLUS, ButtonCntlPlus);
+	DDX_Control(pDX, IDC_BUTTON_MINUS, ButtonCntlMinus);
+	DDX_Control(pDX, IDC_BUTTON_DEVIDE, ButtonCntlDevide);
+	DDX_Control(pDX, IDC_BUTTON_MULTIPLY, ButtonCntlMultiply);
+	DDX_Control(pDX, IDC_BUTTON_CHSIGN, ButtonCntlChSign);
+	DDX_Control(pDX, IDC_BUTTON_Mod, ButtonCntlMod);
+	DDX_Control(pDX, IDC_BUTTON_DELALL, ButtonCntlDelel);
 }
 
 BEGIN_MESSAGE_MAP(CCalculatorDlg, CDialogEx)
@@ -71,29 +82,25 @@ BEGIN_MESSAGE_MAP(CCalculatorDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_BUTTON_Mod, &CCalculatorDlg::OnBnClickedButtonMod)
-	ON_BN_CLICKED(IDC_BUTTON_RDEV, &CCalculatorDlg::OnBnClickedButtonRdev)
 	ON_BN_CLICKED(IDC_BUTTON_SEVEN, &CCalculatorDlg::OnBnClickedButtonSeven)
 	ON_BN_CLICKED(IDC_BUTTON_FOUR, &CCalculatorDlg::OnBnClickedButtonFour)
 	ON_BN_CLICKED(IDC_BUTTON_ONE, &CCalculatorDlg::OnBnClickedButtonOne)
 	ON_BN_CLICKED(IDC_BUTTON_CHSIGN, &CCalculatorDlg::OnBnClickedButtonChsign)
-	ON_BN_CLICKED(IDC_BUTTON_DELELEM, &CCalculatorDlg::OnBnClickedButtonDelelem)
-	ON_BN_CLICKED(IDC_BUTTON_SQR, &CCalculatorDlg::OnBnClickedButtonSqr)
 	ON_BN_CLICKED(IDC_BUTTON_EIGHT, &CCalculatorDlg::OnBnClickedButtonEight)
 	ON_BN_CLICKED(IDC_BUTTON_FIVE, &CCalculatorDlg::OnBnClickedButtonFive)
 	ON_BN_CLICKED(IDC_BUTTON_TWO, &CCalculatorDlg::OnBnClickedButtonTwo)
 	ON_BN_CLICKED(IDC_BUTTON_ZERO, &CCalculatorDlg::OnBnClickedButtonZero)
-	ON_BN_CLICKED(IDC_BUTTON_DELALL, &CCalculatorDlg::OnBnClickedButtonDelall)
-	ON_BN_CLICKED(IDC_BUTTON_SQRT, &CCalculatorDlg::OnBnClickedButtonSqrt)
+	ON_BN_CLICKED(IDC_BUTTON_DELALL, &CCalculatorDlg::OnBnClickedButtonDel)
 	ON_BN_CLICKED(IDC_BUTTON_NINE, &CCalculatorDlg::OnBnClickedButtonNine)
 	ON_BN_CLICKED(IDC_BUTTON_SIX, &CCalculatorDlg::OnBnClickedButtonSix)
 	ON_BN_CLICKED(IDC_BUTTON_THREE, &CCalculatorDlg::OnBnClickedButtonThree)
 	ON_BN_CLICKED(IDC_BUTTON_POINT, &CCalculatorDlg::OnBnClickedButtonPoint)
-	ON_BN_CLICKED(IDC_BUTTON_DELNUM, &CCalculatorDlg::OnBnClickedButtonDelnum)
 	ON_BN_CLICKED(IDC_BUTTON_DEVIDE, &CCalculatorDlg::OnBnClickedButtonDevide)
 	ON_BN_CLICKED(IDC_BUTTON_MULTIPLY, &CCalculatorDlg::OnBnClickedButtonMultiply)
 	ON_BN_CLICKED(IDC_BUTTON_MINUS, &CCalculatorDlg::OnBnClickedButtonMinus)
 	ON_BN_CLICKED(IDC_BUTTON_PLUS, &CCalculatorDlg::OnBnClickedButtonPlus)
 	ON_BN_CLICKED(IDC_BUTTON_EQUAL, &CCalculatorDlg::OnBnClickedButtonEqual)
+	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 
@@ -217,9 +224,9 @@ BOOL CCalculatorDlg::PreTranslateMessage(MSG* pMsg)
 		else if (pMsg->wParam == VK_SEPARATOR)
 			OnBnClickedButtonPoint();
 		else if (pMsg->wParam == VK_DELETE)
-			OnBnClickedButtonDelelem();
+			OnBnClickedButtonDel();
 		else if (pMsg->wParam == VK_BACK)
-			OnBnClickedButtonDelnum();
+			OnBnClickedButtonDel();
 		//else if (pMsg->wParam == VK_RETURN)
 		//	OnBnClickedButtonEqual();
 	}
@@ -281,46 +288,20 @@ void CCalculatorDlg::OnBnClickedButtonPoint()
 	UpdateEditor(CString("."));
 }
 
-void CCalculatorDlg::OnBnClickedButtonDelelem()
+void CCalculatorDlg::OnBnClickedButtonDel()
 {
+	if (last_pressed_button == "d")
+		last_oper = CString("");
+	
 	curr_num = CString("0");
-	UpdateData(false);
-}
 
-void CCalculatorDlg::OnBnClickedButtonDelall()
-{
-	curr_num = CString("0");
-	prev_oper = CString("");
-	last_oper = CString("");
+	last_pressed_button = "d";
 	UpdateData(false);
-}
-
-void CCalculatorDlg::OnBnClickedButtonDelnum()
-{
-	curr_num.Delete(curr_num.GetLength() - 1);
-	if (curr_num == "")
-		curr_num = CString("0");
-	UpdateData(false);
-}
-
-void CCalculatorDlg::OnBnClickedButtonRdev()
-{
-	DoFastOperation(CString("revdevide"));
 }
 
 void CCalculatorDlg::OnBnClickedButtonChsign()
 {
 	DoFastOperation(CString("chsign"));
-}
-
-void CCalculatorDlg::OnBnClickedButtonSqr()
-{
-	DoFastOperation(CString("sqr"));
-}
-
-void CCalculatorDlg::OnBnClickedButtonSqrt()
-{
-	DoFastOperation(CString("sqrt"));
 }
 
 void CCalculatorDlg::OnBnClickedButtonMod()
@@ -350,105 +331,72 @@ void CCalculatorDlg::OnBnClickedButtonPlus()
 
 void CCalculatorDlg::OnBnClickedButtonEqual()
 {
-	if (IsEqualLast && last_oper != "")
+	if (last_pressed_button == "=")
 	{
-		tmp_res = DoCalculation(lvalue, prev_rvalue, last_oper);
-		CString tmp_str;
-		tmp_str.Format(_T("%g"), prev_rvalue);
-		prev_oper = curr_num + last_oper + tmp_str + CString("=");
-	}
-	else if (IsEqualLast && last_oper == "")
-	{
-		tmp_res = _ttof(curr_num);
-		prev_oper = curr_num + CString("=");
-	}
-	else if (IsFastOperation)
-	{
-		tmp_res = _ttof(curr_num);
-		prev_oper += CString("=");
+		tmp_res = DoCalculation(tmp_res, rvalue, last_oper);
 	}
 	else
 	{
 		rvalue = _ttof(curr_num);
-		prev_rvalue = rvalue;
 		tmp_res = DoCalculation(lvalue, rvalue, last_oper);
-		prev_oper += curr_num + CString("=");
 	}
-		
+	
 	lvalue = tmp_res;
+
 	curr_num.Format(_T("%g"), tmp_res);
-	IsEqLast = true;
-	IsEqualLast = true;
+	last_pressed_button = "=";
 
 	UpdateData(false);
 }
 
 void CCalculatorDlg::UpdateEditor(CString InputNum)
 {
-	if (!IsEqLast)
+	if (IsLastOperation())
 	{
 		if (InputNum != ".")
-		{
+			curr_num = InputNum;
+		else
+			curr_num = CString("0.");
+	}
+	else
+	{
+		if (InputNum != "."){
 			if (curr_num != "0")
 				curr_num += InputNum;
 			else
 				curr_num = InputNum;
 		}
-		else
-		{
+		else{
 			if (curr_num.Find('.') == -1)
 				curr_num += InputNum;
 		}
 	}
-	else
-	{
-		if (InputNum != ".")
-		{
-			curr_num = InputNum;
-		}
-		else
-		{
-			curr_num = CString("0.");
-		}
 
-		if (IsEqualLast)
-		{
-			lvalue = 0;
-			prev_oper = "";
-			last_oper = "";
-		}
+	last_pressed_button = InputNum;
 
-	}
-	IsEqLast = false;
-	IsEqualLast = false;
-	IsFastOperation = false;
 	UpdateData(false);
 }
 
 void CCalculatorDlg::UpdateOperation(CString Oper)
 {
-	IsEqLast = true;
+	last_pressed_button = Oper;
 	lvalue = _ttof(curr_num);
 	rvalue = lvalue;
-	prev_oper = curr_num + Oper;
 	last_oper = Oper;
 	UpdateData(false);
 }
 
 void CCalculatorDlg::DoFastOperation(CString Oper)
 {
-	IsFastOperation = true;
 	auto tmp = _ttof(curr_num);
 
 	if (Oper == CString("sqr"))
 	{
 		tmp *= tmp;
-		prev_oper = Oper + '(' + curr_num + ')';
 	}
 	else if (Oper == CString("sqrt"))
 	{
 		tmp = sqrt(tmp);
-		prev_oper = Oper + '(' + curr_num + ')';
 	}
 	else if (Oper == CString("chsign"))
 	{
@@ -457,7 +405,6 @@ void CCalculatorDlg::DoFastOperation(CString Oper)
 	else if (Oper == CString("revdevide"))
 	{
 		tmp = 1 / tmp;
-		prev_oper = CString("1/") + curr_num;
 	}
 	else if (Oper == CString("%"))
 	{
@@ -496,19 +443,78 @@ double CCalculatorDlg::DoCalculation(double lnum, double rnum, CString last_oper
 	return res;
 }
 
-CString CCalculatorDlg::GetCorrectNumFromDouble(double num)
+bool CCalculatorDlg::IsLastOperation()
 {
-	CString res;
-	res;
+	return last_pressed_button == "/" || last_pressed_button == "*" ||
+		last_pressed_button == "-" || last_pressed_button == "+" ||
+		last_pressed_button == "=";
+}
 
-	int len_to_del = 0;
-	for (int i = res.GetLength() - 1; i != 0; --i) {
-		if (res[i] == '0')
-			len_to_del++;
-		else
-			break;
+HBRUSH CCalculatorDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+	if (pWnd->GetDlgCtrlID() == IDC_CALC_TMP)
+	{
+		CFont font;
+		font.CreateFont(
+			28,                        // nHeight
+			0,                         // nWidth
+			0,                         // nEscapement
+			0,                         // nOrientation
+			FW_NORMAL,                 // nWeight
+			FALSE,                     // bItalic
+			FALSE,                     // bUnderline
+			0,                         // cStrikeOut
+			ANSI_CHARSET,              // nCharSet
+			OUT_DEFAULT_PRECIS,        // nOutPrecision
+			CLIP_DEFAULT_PRECIS,       // nClipPrecision
+			DEFAULT_QUALITY,           // nQuality
+			DEFAULT_PITCH | FF_SWISS,  // nPitchAndFamily
+			_T("MS Shell Dlg"));                 // lpszFacename
+		pDC->SelectObject(&font);
 	}
-	res.Delete(res.GetLength() - len_to_del - 1, len_to_del);
-
-	return res;
+	else if (pWnd->GetDlgCtrlID() == IDC_BUTTON_MINUS)
+	{
+		ButtonCntlMinus.EnableWindowsTheming(FALSE);    
+		ButtonCntlMinus.SetFaceColor(ButtonColorMinus);   
+		ButtonCntlMinus.SetTextColor(RGB(0, 0, 0)); 
+	}
+	else if (pWnd->GetDlgCtrlID() == IDC_BUTTON_PLUS)
+	{
+		ButtonCntlPlus.EnableWindowsTheming(FALSE);    
+		ButtonCntlPlus.SetFaceColor(ButtonColorPlus);    
+		ButtonCntlPlus.SetTextColor(RGB(0, 0, 0)); 
+	}
+	else if (pWnd->GetDlgCtrlID() == IDC_BUTTON_DEVIDE)
+	{
+		ButtonCntlDevide.EnableWindowsTheming(FALSE);     
+		ButtonCntlDevide.SetFaceColor(ButtonColorDevide);
+		ButtonCntlDevide.SetTextColor(RGB(0, 0, 0)); 
+	}
+	else if (pWnd->GetDlgCtrlID() == IDC_BUTTON_MULTIPLY)
+	{
+		ButtonCntlMultiply.EnableWindowsTheming(FALSE);  
+		ButtonCntlMultiply.SetFaceColor(ButtonColorMultiply);
+		ButtonCntlMultiply.SetTextColor(RGB(0, 0, 0)); 
+	}
+	else if (pWnd->GetDlgCtrlID() == IDC_BUTTON_DELALL)
+	{
+		ButtonCntlDelel.EnableWindowsTheming(FALSE);
+		ButtonCntlDelel.SetFaceColor(ButtonOtherOper);
+		ButtonCntlDelel.SetTextColor(RGB(0, 0, 0));
+	}
+	else if (pWnd->GetDlgCtrlID() == IDC_BUTTON_CHSIGN)
+	{
+		ButtonCntlChSign.EnableWindowsTheming(FALSE);
+		ButtonCntlChSign.SetFaceColor(ButtonOtherOper);
+		ButtonCntlChSign.SetTextColor(RGB(0, 0, 0));
+	}
+	else if (pWnd->GetDlgCtrlID() == IDC_BUTTON_Mod)
+	{
+		ButtonCntlMod.EnableWindowsTheming(FALSE);
+		ButtonCntlMod.SetFaceColor(ButtonOtherOper);
+		ButtonCntlMod.SetTextColor(RGB(0, 0, 0));
+	}
+	// TODO:  Вернуть другое значение дескриптора кисти, если оно не определено по умолчанию
+	return hbr;
 }
