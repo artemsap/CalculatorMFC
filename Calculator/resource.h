@@ -7,6 +7,9 @@
 #define IDS_ABOUTBOX                    101
 #define IDD_CALCULATOR_DIALOG           102
 #define IDR_MAINFRAME                   128
+#define IDD_MATRIX                      132
+#define IDC_BUTTON_Matrix               1026
+#define IDC_BUTTON_MULT                 1042
 #define IDC_BUTTON_ONE                  1060
 #define IDC_BUTTON_FOUR                 1085
 #define IDC_BUTTON_SEVEN                1086
@@ -27,14 +30,16 @@
 #define IDC_BUTTON_DEVIDE               1105
 #define IDC_BUTTON_EQUAL                1107
 #define IDC_CALC_TMP                    1108
+#define IDC_BUTTON_MULT2                1117
+#define IDC_BUTTON_DEBUG                1117
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        130
+#define _APS_NEXT_RESOURCE_VALUE        135
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1024
+#define _APS_NEXT_CONTROL_VALUE         1046
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

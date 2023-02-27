@@ -8,11 +8,11 @@
 #include "CalculatorDlg.h"
 #include "afxdialogex.h"
 #include <math.h>
+#include "MatrixMult.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
 
 // Диалоговое окно CAboutDlg используется для описания сведений о приложении
 
@@ -59,7 +59,7 @@ CCalculatorDlg::CCalculatorDlg(CWnd* pParent /*=nullptr*/)
 
 	ButtonCalcOperNotPressed = RGB(255, 180, 0);
 	ButtonCalcOperPresssed = RGB(255, 120, 0);;
-	ButtonOtherOper = RGB(60, 60, 60);
+	ButtonOtherOper = RGB(100, 100, 100);
 
 	ButtonColorPlus = ButtonColorMinus = ButtonColorDevide = ButtonColorMultiply = ButtonCalcOperNotPressed;
 }
@@ -101,6 +101,7 @@ BEGIN_MESSAGE_MAP(CCalculatorDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_PLUS, &CCalculatorDlg::OnBnClickedButtonPlus)
 	ON_BN_CLICKED(IDC_BUTTON_EQUAL, &CCalculatorDlg::OnBnClickedButtonEqual)
 	ON_WM_CTLCOLOR()
+	ON_BN_CLICKED(IDC_BUTTON_Matrix, &CCalculatorDlg::OnBnClickedButtonMatrix)
 END_MESSAGE_MAP()
 
 
@@ -517,4 +518,10 @@ HBRUSH CCalculatorDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 	}
 	// TODO:  Вернуть другое значение дескриптора кисти, если оно не определено по умолчанию
 	return hbr;
+}
+
+void CCalculatorDlg::OnBnClickedButtonMatrix()
+{
+	MatrixMult nMatrix;
+	nMatrix.DoModal();
 }

@@ -51,6 +51,7 @@ public:
 	afx_msg void OnBnClickedButtonMinus();
 	afx_msg void OnBnClickedButtonPlus();
 	afx_msg void OnBnClickedButtonEqual();
+	afx_msg void OnBnClickedButtonMatrix();
 	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 
 private:
