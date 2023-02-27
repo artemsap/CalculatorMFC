@@ -81,6 +81,7 @@ private:
 	COLORREF ButtonOtherOper;
 
 	CFont font_;
+	CFont font2_;
 public:
 	CMFCButton ButtonCntlPlus;
 	CMFCButton ButtonCntlMinus;

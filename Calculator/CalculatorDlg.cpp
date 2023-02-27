@@ -181,6 +181,14 @@ BOOL CCalculatorDlg::OnInitDialog()
 	ButtonCntlMod.SetTextColor(RGB(0, 0, 0));
 	ButtonCntlMod.SetFont(&font_);
 
+	CFont* currentFont2 = EditCalcCtrl.GetFont();
+	LOGFONT lf2;                        // Used to create the CFont.
+	currentFont2->GetLogFont(&lf2);
+	lf2.lfHeight = 40;
+	font2_.DeleteObject();
+	font2_.CreateFontIndirect(&lf2);    // Create the font.
+	EditCalcCtrl.SetFont(&font2_);
+
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
 }
 
