@@ -89,7 +89,7 @@ BOOL MatrixMult::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	CreateEmtpyMatrix(MatrixLeft, offset_x, offset_y, 3, 3, EditBlockSize);
+	/*CreateEmtpyMatrix(MatrixLeft, offset_x, offset_y, 3, 3, EditBlockSize);
 
 	CreateComboBox(left_rows_box, 8,
 		offset_x + (MatrixLeft[0].size() * EditBlockSize) / 2 - EditBlockSize,
@@ -119,7 +119,8 @@ BOOL MatrixMult::OnInitDialog()
 	x_start = x_start + MatrixRight[0].size() * EditBlockSize + EditBlockSize;
 	y_start = offset_y + MatrixRight.size() / 2 * EditBlockSize;
 	equal_sign.Create(_T("="), WS_VISIBLE, CRect(x_start, y_start, x_start + EditBlockSize, y_start + EditBlockSize), this);
-
+	*/
+	ReDrawAll(true);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// Исключение: страница свойств OCX должна возвращать значение FALSE
 }
@@ -147,33 +148,45 @@ void MatrixMult::OnBnClickedButtonMult()
 		Matrix<double> left_matrix(MatrixLeft);
 		Matrix<double> right_matrix(MatrixRight);
 
-		CreateEmtpyMatrix(ResultMatrix, offset_x + (MatrixLeft.size() + MatrixRight.size() + 2) * EditBlockSize, offset_y, MatrixLeft.size(), MatrixRight[0].size(), EditBlockSize);
+		CreateEmtpyMatrix(ResultMatrix, offset_x + (MatrixLeft.size() + MatrixRight[0].size() + 2) * EditBlockSize, offset_y, MatrixLeft.size(), MatrixRight[0].size(), EditBlockSize);
 
 		Matrix<double> res = Matrix<double>::multiply(left_matrix, right_matrix);
 		res.ConvertToCEdit(ResultMatrix);
 	}
 }
 
-void MatrixMult::ReDrawAll()
+void MatrixMult::ReDrawAll(bool IsFirst = false)
 {
-	DeleteMatrix(MatrixLeft);
-	DeleteMatrix(MatrixRight);
-	DeleteMatrix(ResultMatrix);
+	int cur_pos_left_rows = 1;
+	int cur_pos_left_cols = 1;
+	int cur_pos_right_rows = 1;
+	int cur_pos_right_cols = 1;
+	if (!IsFirst)
+	{
+		DeleteMatrix(MatrixLeft);
+		DeleteMatrix(MatrixRight);
+		DeleteMatrix(ResultMatrix);
+		cur_pos_left_rows = left_rows_box.GetCurSel();
+		cur_pos_left_cols = left_cols_box.GetCurSel();
+		cur_pos_right_rows = right_rows_box.GetCurSel();
+		cur_pos_right_cols = right_cols_box.GetCurSel();
+		left_rows_box.DestroyWindow();
+		left_cols_box.DestroyWindow();
+		right_rows_box.DestroyWindow();
+		right_cols_box.DestroyWindow();
+	}
 
-	CreateEmtpyMatrix(MatrixLeft, offset_x, offset_y, left_rows_box.GetCurSel() + 1, left_cols_box.GetCurSel() + 1, EditBlockSize);
+	CreateEmtpyMatrix(MatrixLeft, offset_x, offset_y, cur_pos_left_rows + 1, cur_pos_left_cols + 1, EditBlockSize);
 
-	int cur_pos = left_rows_box.GetCurSel();
-	left_rows_box.DestroyWindow();
 	CreateComboBox(left_rows_box, 8,
 		offset_x + (MatrixLeft[0].size() * EditBlockSize) / 2 - EditBlockSize,
 		offset_y - EditBlockSize,
-		EditBlockSize, 200, 10001, cur_pos);
-	cur_pos = left_cols_box.GetCurSel();
-	left_cols_box.DestroyWindow();
+		EditBlockSize, 200, 10001, cur_pos_left_rows);
+	
 	CreateComboBox(left_cols_box, 8,
 		offset_x + (MatrixLeft[0].size() * EditBlockSize) / 2,
 		offset_y - EditBlockSize,
-		EditBlockSize, 200, 10002, cur_pos);
+		EditBlockSize, 200, 10002, cur_pos_left_cols);
 
 	int x_start = offset_x + MatrixLeft[0].size() * EditBlockSize + EditBlockSize / 2;
 	int y_start = offset_y + MatrixLeft.size() / 2 * EditBlockSize;
@@ -181,20 +194,17 @@ void MatrixMult::ReDrawAll()
 	mult_sign.Create(_T("X"), WS_VISIBLE, CRect(x_start, y_start, x_start + EditBlockSize, y_start + EditBlockSize), this);
 
 	int _offset_x = offset_x + (MatrixLeft[0].size() + 1) * EditBlockSize;
-	CreateEmtpyMatrix(MatrixRight, _offset_x, offset_y, right_rows_box.GetCurSel() + 1, right_cols_box.GetCurSel() + 1, EditBlockSize);
+	CreateEmtpyMatrix(MatrixRight, _offset_x, offset_y, cur_pos_right_rows + 1, cur_pos_right_cols + 1, EditBlockSize);
 
-	cur_pos = right_rows_box.GetCurSel();
-	right_rows_box.DestroyWindow();
 	CreateComboBox(right_rows_box, 8,
 		_offset_x + (MatrixRight[0].size() * EditBlockSize) / 2 - EditBlockSize,
 		offset_y - EditBlockSize,
-		EditBlockSize, 200, 10003, cur_pos);
-	cur_pos = right_cols_box.GetCurSel();
-	right_cols_box.DestroyWindow();
+		EditBlockSize, 200, 10003, cur_pos_right_rows);
+
 	CreateComboBox(right_cols_box, 8,
 		_offset_x + (MatrixRight[0].size() * EditBlockSize) / 2,
 		offset_y - EditBlockSize,
-		EditBlockSize, 200, 10004, cur_pos);
+		EditBlockSize, 200, 10004, cur_pos_right_cols);
 
 	x_start = x_start + MatrixRight[0].size() * EditBlockSize + EditBlockSize;
 	y_start = offset_y + MatrixRight.size() / 2 * EditBlockSize;
@@ -212,7 +222,7 @@ void MatrixMult::OnBnClickedButtonDebug()
 	double debug_value = 0;
 	for (auto& row : MatrixLeft) {
 		for (auto& elem : row) {
-			debug_value += 1.1;
+			debug_value += 1;
 			CString text;
 			text.Format(_T("%g"), debug_value);
 			elem->SetWindowText(text);
@@ -222,7 +232,7 @@ void MatrixMult::OnBnClickedButtonDebug()
 	debug_value = 0;
 	for (auto& row : MatrixRight) {
 		for (auto& elem : row) {
-			debug_value += 1.1;
+			debug_value += 1;
 			CString text;
 			text.Format(_T("%g"), debug_value);
 			elem->SetWindowText(text);

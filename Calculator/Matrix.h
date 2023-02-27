@@ -30,13 +30,13 @@ public:
 	static Matrix<T> multiply(Matrix<T>& matrix_left, Matrix<T>& matrix_right)
 	{
 		Matrix<T> matrix_res(matrix_left.size(), matrix_right[0].size());
-		for (int i = 0; i != matrix_res.size(); ++i) {
-			for (int j = 0; j != matrix_res[0].size(); ++j) {
+		for (int j = 0; j != matrix_res[0].size(); ++j) {
+			for (int i = 0; i != matrix_res.size(); ++i) {
 				T tmp = 0;
 				for (int k = 0; k != matrix_right.size(); ++k){
 					tmp += matrix_left[i][k] * matrix_right[k][j];
 				}
-				matrix_res[j][i] = tmp;
+				matrix_res[i][j] = tmp;
 			}
 		}
 		return matrix_res;

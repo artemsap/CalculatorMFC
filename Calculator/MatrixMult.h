@@ -48,7 +48,7 @@ private:
 
 	void CreateComboBox(CComboBox& combobox, int max_num, int x_start, int y_start, int x_end, int y_end, int ID, int curpos);
 
-	void ReDrawAll();
+	void ReDrawAll(bool IsFirst);
 
 public:
 	virtual BOOL OnInitDialog();
