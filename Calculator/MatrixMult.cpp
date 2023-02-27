@@ -16,6 +16,7 @@ MatrixMult::MatrixMult(CWnd* pParent /*=nullptr*/)
 	EditBlockSize = 40;
 	offset_x = 50;
 	offset_y = 50;
+	max_matrix_size = 20;
 }
 
 MatrixMult::~MatrixMult()
@@ -88,38 +89,6 @@ void MatrixMult::CreateComboBox(CComboBox& combobox, int max_num, int x_start, i
 BOOL MatrixMult::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-
-	/*CreateEmtpyMatrix(MatrixLeft, offset_x, offset_y, 3, 3, EditBlockSize);
-
-	CreateComboBox(left_rows_box, 8,
-		offset_x + (MatrixLeft[0].size() * EditBlockSize) / 2 - EditBlockSize,
-		offset_y - EditBlockSize,
-		EditBlockSize, 200, 10001, 2);
-	CreateComboBox(left_cols_box, 8,
-		offset_x + (MatrixLeft[0].size() * EditBlockSize) / 2,
-		offset_y - EditBlockSize,
-		EditBlockSize, 200, 10002, 2);
-
-	int x_start = offset_x + MatrixLeft[0].size() * EditBlockSize + EditBlockSize / 2;
-	int y_start = offset_y + MatrixLeft.size() / 2 * EditBlockSize;
-	mult_sign.Create(_T("X"), WS_VISIBLE, CRect(x_start, y_start, x_start + EditBlockSize, y_start + EditBlockSize), this);
-
-	int _offset_x = offset_x + (MatrixLeft[0].size() + 1) * EditBlockSize;
-	CreateEmtpyMatrix(MatrixRight, _offset_x, offset_y, 3, 3, EditBlockSize);
-
-	CreateComboBox(right_rows_box, 8,
-		_offset_x + (MatrixRight[0].size() * EditBlockSize) / 2 - EditBlockSize,
-		offset_y - EditBlockSize,
-		EditBlockSize, 200, 10003, 2);
-	CreateComboBox(right_cols_box, 8,
-		_offset_x + (MatrixRight[0].size() * EditBlockSize) / 2,
-		offset_y - EditBlockSize,
-		EditBlockSize, 200, 10004, 2);
-
-	x_start = x_start + MatrixRight[0].size() * EditBlockSize + EditBlockSize;
-	y_start = offset_y + MatrixRight.size() / 2 * EditBlockSize;
-	equal_sign.Create(_T("="), WS_VISIBLE, CRect(x_start, y_start, x_start + EditBlockSize, y_start + EditBlockSize), this);
-	*/
 	ReDrawAll(true);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// Исключение: страница свойств OCX должна возвращать значение FALSE
@@ -180,12 +149,12 @@ void MatrixMult::ReDrawAll(bool IsFirst = false)
 
 	CreateEmtpyMatrix(MatrixLeft, offset_x, offset_y, cur_pos_left_rows + 1, cur_pos_left_cols + 1, EditBlockSize);
 
-	CreateComboBox(left_rows_box, 8,
+	CreateComboBox(left_rows_box, max_matrix_size,
 		offset_x + (MatrixLeft[0].size() * EditBlockSize) / 2 - EditBlockSize,
 		offset_y - EditBlockSize,
 		EditBlockSize, 200, 10001, cur_pos_left_rows);
 	
-	CreateComboBox(left_cols_box, 8,
+	CreateComboBox(left_cols_box, max_matrix_size,
 		offset_x + (MatrixLeft[0].size() * EditBlockSize) / 2,
 		offset_y - EditBlockSize,
 		EditBlockSize, 200, 10002, cur_pos_left_cols);
@@ -198,12 +167,12 @@ void MatrixMult::ReDrawAll(bool IsFirst = false)
 	int _offset_x = offset_x + (MatrixLeft[0].size() + 1) * EditBlockSize;
 	CreateEmtpyMatrix(MatrixRight, _offset_x, offset_y, cur_pos_right_rows + 1, cur_pos_right_cols + 1, EditBlockSize);
 
-	CreateComboBox(right_rows_box, 8,
+	CreateComboBox(right_rows_box, max_matrix_size,
 		_offset_x + (MatrixRight[0].size() * EditBlockSize) / 2 - EditBlockSize,
 		offset_y - EditBlockSize,
 		EditBlockSize, 200, 10003, cur_pos_right_rows);
 
-	CreateComboBox(right_cols_box, 8,
+	CreateComboBox(right_cols_box, max_matrix_size,
 		_offset_x + (MatrixRight[0].size() * EditBlockSize) / 2,
 		offset_y - EditBlockSize,
 		EditBlockSize, 200, 10004, cur_pos_right_cols);

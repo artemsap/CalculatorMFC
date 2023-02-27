@@ -101,7 +101,7 @@ BEGIN_MESSAGE_MAP(CCalculatorDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_PLUS, &CCalculatorDlg::OnBnClickedButtonPlus)
 	ON_BN_CLICKED(IDC_BUTTON_EQUAL, &CCalculatorDlg::OnBnClickedButtonEqual)
 	ON_WM_CTLCOLOR()
-	ON_BN_CLICKED(IDC_BUTTON_Matrix, &CCalculatorDlg::OnBnClickedButtonMatrix)
+	ON_BN_CLICKED(OPEN_MATRIX, &CCalculatorDlg::OnBnClickedButtonMatrix)
 END_MESSAGE_MAP()
 
 

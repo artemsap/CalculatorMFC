@@ -40,6 +40,8 @@ private:
 
 	size_t EditBlockSize;
 
+	int max_matrix_size;
+
 	int offset_x;
 	int offset_y;
 
