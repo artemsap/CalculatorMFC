@@ -16,25 +16,9 @@ public:
 		Convert(CEditMatrix);
 	}
 
-	void Resize(int rows, int cols)
-	{
-		matrix_data.clear();
-		CreateMatrix(rows, cols);
-	}
-
 	int size()
 	{
 		return matrix_data.size();
-	}
-
-	void Set(int i, int j, T data)
-	{
-		matrix_data[i][j] = data;
-	}
-
-	std::vector<T>& Get(int i)
-	{
-		return matrix_data[i];
 	}
 
 	std::vector<T>& operator[](int i)

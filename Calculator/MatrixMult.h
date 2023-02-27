@@ -46,7 +46,7 @@ private:
 	void CreateEmtpyMatrix(std::vector<std::vector<CEdit*>>& Matrix, size_t offset_x, size_t offset_y, size_t Rows, size_t Cols, size_t EditBlockSize);
 	void DeleteMatrix(std::vector<std::vector<CEdit*>>& Matrix);
 
-	void CreateComboBox(CComboBox& combobox, int max_num, int x_start, int y_start, int x_end, int y_end, int ID);
+	void CreateComboBox(CComboBox& combobox, int max_num, int x_start, int y_start, int x_end, int y_end, int ID, int curpos);
 
 	void ReDrawAll();
 

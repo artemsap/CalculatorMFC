@@ -1,1 +1,35 @@
-﻿  Calculator.vcxproj -> C:\Users\User\source\repos\Calculator\x64\Debug\Calculator.exe
+﻿  MatrixMult.cpp
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(52,40): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(97,31): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(101,31): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(103,83): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(104,64): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(105,112): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(107,71): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(113,31): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(117,31): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(119,75): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(120,61): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(121,113): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(170,37): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(176,37): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(178,83): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(179,64): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(181,112): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(183,71): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(191,37): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(197,37): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(199,75): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(200,61): warning C4267: =: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(202,113): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\Matrix.h(15,1): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\Matrix.h(13,1): message : во время компиляции функции-члена класс шаблон "Matrix<double>::Matrix(std::vector<std::vector<CEdit *,std::allocator<CEdit *>>,std::allocator<std::vector<CEdit *,std::allocator<CEdit *>>>> &)"
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(147,18): message : выполняется компиляция ссылки на экземпляр шаблон функции "Matrix<double>::Matrix(std::vector<std::vector<CEdit *,std::allocator<CEdit *>>,std::allocator<std::vector<CEdit *,std::allocator<CEdit *>>>> &)"
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(147,40): message : выполняется компиляция ссылки на экземпляр класс шаблон функции "Matrix<double>"
+C:\Users\User\source\repos\Calculator\Calculator\Matrix.h(32,1): warning C4267: аргумент: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(152,74): message : выполняется компиляция ссылки на экземпляр шаблон функции "Matrix<double> Matrix<double>::multiply<double>(Matrix<double> &,Matrix<double> &)"
+C:\Users\User\source\repos\Calculator\Calculator\MatrixMult.cpp(152,18): message : выполняется компиляция ссылки на экземпляр шаблон функции "Matrix<double> Matrix<double>::multiply<double>(Matrix<double> &,Matrix<double> &)"
+C:\Users\User\source\repos\Calculator\Calculator\Matrix.h(21,1): warning C4267: return: преобразование из "size_t" в "int"; возможна потеря данных
+C:\Users\User\source\repos\Calculator\Calculator\Matrix.h(20,1): message : во время компиляции функции-члена класс шаблон "int Matrix<double>::size(void)"
+C:\Users\User\source\repos\Calculator\Calculator\Matrix.h(32,13): message : выполняется компиляция ссылки на экземпляр шаблон функции "int Matrix<double>::size(void)"
+  Calculator.vcxproj -> C:\Users\User\source\repos\Calculator\x64\Debug\Calculator.exe

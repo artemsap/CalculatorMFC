@@ -14,8 +14,8 @@ MatrixMult::MatrixMult(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_MATRIX, pParent)
 {
 	EditBlockSize = 40;
-	offset_x = 100;
-	offset_y = 100;
+	offset_x = 50;
+	offset_y = 50;
 }
 
 MatrixMult::~MatrixMult()
@@ -71,7 +71,7 @@ void MatrixMult::DeleteMatrix(std::vector<std::vector<CEdit*>>& Matrix)
 	Matrix.clear();
 }
 
-void MatrixMult::CreateComboBox(CComboBox& combobox, int max_num, int x_start, int y_start, int x_size, int y_size, int ID)
+void MatrixMult::CreateComboBox(CComboBox& combobox, int max_num, int x_start, int y_start, int x_size, int y_size, int ID, int curpos)
 {
 	combobox.Create(WS_VISIBLE | CBS_DROPDOWNLIST | WS_VSCROLL,
 		CRect(x_start, y_start, x_start + x_size, y_start + y_size), this, ID);
@@ -82,7 +82,7 @@ void MatrixMult::CreateComboBox(CComboBox& combobox, int max_num, int x_start, i
 		str.Format(_T("%d"), i);
 		combobox.AddString(str);
 	}
-	combobox.SetCurSel(2);
+	combobox.SetCurSel(curpos);
 }
 
 BOOL MatrixMult::OnInitDialog()
@@ -92,31 +92,33 @@ BOOL MatrixMult::OnInitDialog()
 	CreateEmtpyMatrix(MatrixLeft, offset_x, offset_y, 3, 3, EditBlockSize);
 
 	CreateComboBox(left_rows_box, 8,
-		offset_x + (MatrixLeft[0].size() / 2 - 1) * EditBlockSize,
+		offset_x + (MatrixLeft[0].size() * EditBlockSize) / 2 - EditBlockSize,
 		offset_y - EditBlockSize,
-		EditBlockSize, 200, 10001);
-	CreateComboBox(left_cols_box, 8, 
-		offset_x + (MatrixLeft[0].size()/2) * EditBlockSize, 
+		EditBlockSize, 200, 10001, 2);
+	CreateComboBox(left_cols_box, 8,
+		offset_x + (MatrixLeft[0].size() * EditBlockSize) / 2,
 		offset_y - EditBlockSize,
-		EditBlockSize, 200, 10002);
+		EditBlockSize, 200, 10002, 2);
 
-	/*mult_sign.Create(_T("X"), WS_VISIBLE,
-		CRect(offset_x + MatrixLeft[0].size() * EditBlockSize + EditBlockSize/2,
-			offset_y + MatrixLeft.size() / 2 * EditBlockSize,
-			offset_x + MatrixLeft[0].size() * EditBlockSize + EditBlockSize,
-			offset_y + MatrixLeft.size() / 2 * EditBlockSize + EditBlockSize/2 + EditBlockSize), this);*/
+	int x_start = offset_x + MatrixLeft[0].size() * EditBlockSize + EditBlockSize / 2;
+	int y_start = offset_y + MatrixLeft.size() / 2 * EditBlockSize;
+	mult_sign.Create(_T("X"), WS_VISIBLE, CRect(x_start, y_start, x_start + EditBlockSize, y_start + EditBlockSize), this);
 
 	int _offset_x = offset_x + (MatrixLeft[0].size() + 1) * EditBlockSize;
 	CreateEmtpyMatrix(MatrixRight, _offset_x, offset_y, 3, 3, EditBlockSize);
 
 	CreateComboBox(right_rows_box, 8,
-		_offset_x + (MatrixRight[0].size() / 2 - 1) * EditBlockSize,
+		_offset_x + (MatrixRight[0].size() * EditBlockSize) / 2 - EditBlockSize,
 		offset_y - EditBlockSize,
-		EditBlockSize, 200, 10003);
+		EditBlockSize, 200, 10003, 2);
 	CreateComboBox(right_cols_box, 8,
-		_offset_x + (MatrixRight[0].size() / 2) * EditBlockSize,
+		_offset_x + (MatrixRight[0].size() * EditBlockSize) / 2,
 		offset_y - EditBlockSize,
-		EditBlockSize, 200, 10004);
+		EditBlockSize, 200, 10004, 2);
+
+	x_start = x_start + MatrixRight[0].size() * EditBlockSize + EditBlockSize;
+	y_start = offset_y + MatrixRight.size() / 2 * EditBlockSize;
+	equal_sign.Create(_T("="), WS_VISIBLE, CRect(x_start, y_start, x_start + EditBlockSize, y_start + EditBlockSize), this);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// Исключение: страница свойств OCX должна возвращать значение FALSE
@@ -134,15 +136,22 @@ BOOL MatrixMult::DestroyWindow()
 
 void MatrixMult::OnBnClickedButtonMult()
 {
-	DeleteMatrix(ResultMatrix);
+	if (MatrixLeft[0].size() != MatrixRight.size())
+	{
+		AfxMessageBox(_T("Неправильный размер матрицы!"));
+	}
+	else
+	{
+		DeleteMatrix(ResultMatrix);
 
-	Matrix<double> left_matrix(MatrixLeft);
-	Matrix<double> right_matrix(MatrixRight);
+		Matrix<double> left_matrix(MatrixLeft);
+		Matrix<double> right_matrix(MatrixRight);
 
-	CreateEmtpyMatrix(ResultMatrix, offset_x + (MatrixLeft.size() + MatrixRight.size() + 2) * EditBlockSize, offset_y, MatrixLeft.size(), MatrixRight[0].size(), EditBlockSize);
-	
-	Matrix<double> res = Matrix<double>::multiply(left_matrix, right_matrix);
-	res.ConvertToCEdit(ResultMatrix);
+		CreateEmtpyMatrix(ResultMatrix, offset_x + (MatrixLeft.size() + MatrixRight.size() + 2) * EditBlockSize, offset_y, MatrixLeft.size(), MatrixRight[0].size(), EditBlockSize);
+
+		Matrix<double> res = Matrix<double>::multiply(left_matrix, right_matrix);
+		res.ConvertToCEdit(ResultMatrix);
+	}
 }
 
 void MatrixMult::ReDrawAll()
@@ -153,14 +162,44 @@ void MatrixMult::ReDrawAll()
 
 	CreateEmtpyMatrix(MatrixLeft, offset_x, offset_y, left_rows_box.GetCurSel() + 1, left_cols_box.GetCurSel() + 1, EditBlockSize);
 
-	/*mult_sign.Create(_T("X"), WS_VISIBLE,
-		CRect(offset_x + MatrixLeft[0].size() * EditBlockSize + EditBlockSize/2,
-			offset_y + MatrixLeft.size() / 2 * EditBlockSize,
-			offset_x + MatrixLeft[0].size() * EditBlockSize + EditBlockSize,
-			offset_y + MatrixLeft.size() / 2 * EditBlockSize + EditBlockSize/2 + EditBlockSize), this);*/
+	int cur_pos = left_rows_box.GetCurSel();
+	left_rows_box.DestroyWindow();
+	CreateComboBox(left_rows_box, 8,
+		offset_x + (MatrixLeft[0].size() * EditBlockSize) / 2 - EditBlockSize,
+		offset_y - EditBlockSize,
+		EditBlockSize, 200, 10001, cur_pos);
+	cur_pos = left_cols_box.GetCurSel();
+	left_cols_box.DestroyWindow();
+	CreateComboBox(left_cols_box, 8,
+		offset_x + (MatrixLeft[0].size() * EditBlockSize) / 2,
+		offset_y - EditBlockSize,
+		EditBlockSize, 200, 10002, cur_pos);
+
+	int x_start = offset_x + MatrixLeft[0].size() * EditBlockSize + EditBlockSize / 2;
+	int y_start = offset_y + MatrixLeft.size() / 2 * EditBlockSize;
+	mult_sign.DestroyWindow();
+	mult_sign.Create(_T("X"), WS_VISIBLE, CRect(x_start, y_start, x_start + EditBlockSize, y_start + EditBlockSize), this);
 
 	int _offset_x = offset_x + (MatrixLeft[0].size() + 1) * EditBlockSize;
 	CreateEmtpyMatrix(MatrixRight, _offset_x, offset_y, right_rows_box.GetCurSel() + 1, right_cols_box.GetCurSel() + 1, EditBlockSize);
+
+	cur_pos = right_rows_box.GetCurSel();
+	right_rows_box.DestroyWindow();
+	CreateComboBox(right_rows_box, 8,
+		_offset_x + (MatrixRight[0].size() * EditBlockSize) / 2 - EditBlockSize,
+		offset_y - EditBlockSize,
+		EditBlockSize, 200, 10003, cur_pos);
+	cur_pos = right_cols_box.GetCurSel();
+	right_cols_box.DestroyWindow();
+	CreateComboBox(right_cols_box, 8,
+		_offset_x + (MatrixRight[0].size() * EditBlockSize) / 2,
+		offset_y - EditBlockSize,
+		EditBlockSize, 200, 10004, cur_pos);
+
+	x_start = x_start + MatrixRight[0].size() * EditBlockSize + EditBlockSize;
+	y_start = offset_y + MatrixRight.size() / 2 * EditBlockSize;
+	equal_sign.DestroyWindow();
+	equal_sign.Create(_T("="), WS_VISIBLE, CRect(x_start, y_start, x_start + EditBlockSize, y_start + EditBlockSize), this);
 }
 
 void MatrixMult::OnCbnSelchangeCombo()
