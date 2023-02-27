@@ -52,7 +52,6 @@ public:
 	afx_msg void OnBnClickedButtonPlus();
 	afx_msg void OnBnClickedButtonEqual();
 	afx_msg void OnBnClickedButtonMatrix();
-	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 
 private:
 	CString curr_num;
@@ -80,6 +79,8 @@ private:
 	COLORREF ButtonCalcOperPresssed;
 
 	COLORREF ButtonOtherOper;
+
+	CFont font_;
 public:
 	CMFCButton ButtonCntlPlus;
 	CMFCButton ButtonCntlMinus;
@@ -88,4 +89,5 @@ public:
 	CMFCButton ButtonCntlChSign;
 	CMFCButton ButtonCntlMod;
 	CMFCButton ButtonCntlDelel;
+	CEdit EditCalcCtrl;
 };

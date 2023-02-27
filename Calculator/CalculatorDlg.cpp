@@ -75,6 +75,7 @@ void CCalculatorDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BUTTON_CHSIGN, ButtonCntlChSign);
 	DDX_Control(pDX, IDC_BUTTON_Mod, ButtonCntlMod);
 	DDX_Control(pDX, IDC_BUTTON_DELALL, ButtonCntlDelel);
+	DDX_Control(pDX, IDC_CALC_TMP, EditCalcCtrl);
 }
 
 BEGIN_MESSAGE_MAP(CCalculatorDlg, CDialogEx)
@@ -136,7 +137,49 @@ BOOL CCalculatorDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Крупный значок
 	SetIcon(m_hIcon, FALSE);		// Мелкий значок
 
-	// TODO: добавьте дополнительную инициализацию
+	LOGFONT lf;                        // Used to create the CFont.
+	CFont* currentFont = GetFont();
+	currentFont->GetLogFont(&lf);
+	lf.lfHeight = 20;
+	font_.DeleteObject();
+	font_.CreateFontIndirect(&lf);    // Create the font.
+
+	// Use the font to paint a control.
+	ButtonCntlPlus.SetFont(&font_);
+
+	ButtonCntlMinus.SetFont(&font_);
+	ButtonCntlMinus.EnableWindowsTheming(FALSE);
+	ButtonCntlMinus.SetFaceColor(ButtonColorMinus);
+	ButtonCntlMinus.SetTextColor(RGB(0, 0, 0));
+
+	ButtonCntlPlus.EnableWindowsTheming(FALSE);
+	ButtonCntlPlus.SetFaceColor(ButtonColorPlus);
+	ButtonCntlPlus.SetTextColor(RGB(0, 0, 0));
+
+	ButtonCntlDevide.EnableWindowsTheming(FALSE);
+	ButtonCntlDevide.SetFaceColor(ButtonColorDevide);
+	ButtonCntlDevide.SetTextColor(RGB(0, 0, 0));
+	ButtonCntlDevide.SetFont(&font_);
+
+	ButtonCntlMultiply.EnableWindowsTheming(FALSE);
+	ButtonCntlMultiply.SetFaceColor(ButtonColorMultiply);
+	ButtonCntlMultiply.SetTextColor(RGB(0, 0, 0));
+	ButtonCntlMultiply.SetFont(&font_);
+
+	ButtonCntlDelel.EnableWindowsTheming(FALSE);
+	ButtonCntlDelel.SetFaceColor(ButtonOtherOper);
+	ButtonCntlDelel.SetTextColor(RGB(0, 0, 0));
+	ButtonCntlDelel.SetFont(&font_);
+
+	ButtonCntlChSign.EnableWindowsTheming(FALSE);
+	ButtonCntlChSign.SetFaceColor(ButtonOtherOper);
+	ButtonCntlChSign.SetTextColor(RGB(0, 0, 0));
+	ButtonCntlChSign.SetFont(&font_);
+
+	ButtonCntlMod.EnableWindowsTheming(FALSE);
+	ButtonCntlMod.SetFaceColor(ButtonOtherOper);
+	ButtonCntlMod.SetTextColor(RGB(0, 0, 0));
+	ButtonCntlMod.SetFont(&font_);
 
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
 }
@@ -449,75 +492,6 @@ bool CCalculatorDlg::IsLastOperation()
 	return last_pressed_button == "/" || last_pressed_button == "*" ||
 		last_pressed_button == "-" || last_pressed_button == "+" ||
 		last_pressed_button == "=";
-}
-
-HBRUSH CCalculatorDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
-{
-	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
-	if (pWnd->GetDlgCtrlID() == IDC_CALC_TMP)
-	{
-		CFont font;
-		font.CreateFont(
-			28,                        // nHeight
-			0,                         // nWidth
-			0,                         // nEscapement
-			0,                         // nOrientation
-			FW_NORMAL,                 // nWeight
-			FALSE,                     // bItalic
-			FALSE,                     // bUnderline
-			0,                         // cStrikeOut
-			ANSI_CHARSET,              // nCharSet
-			OUT_DEFAULT_PRECIS,        // nOutPrecision
-			CLIP_DEFAULT_PRECIS,       // nClipPrecision
-			DEFAULT_QUALITY,           // nQuality
-			DEFAULT_PITCH | FF_SWISS,  // nPitchAndFamily
-			_T("MS Shell Dlg"));                 // lpszFacename
-		pDC->SelectObject(&font);
-	}
-	else if (pWnd->GetDlgCtrlID() == IDC_BUTTON_MINUS)
-	{
-		ButtonCntlMinus.EnableWindowsTheming(FALSE);    
-		ButtonCntlMinus.SetFaceColor(ButtonColorMinus);   
-		ButtonCntlMinus.SetTextColor(RGB(0, 0, 0)); 
-	}
-	else if (pWnd->GetDlgCtrlID() == IDC_BUTTON_PLUS)
-	{
-		ButtonCntlPlus.EnableWindowsTheming(FALSE);    
-		ButtonCntlPlus.SetFaceColor(ButtonColorPlus);    
-		ButtonCntlPlus.SetTextColor(RGB(0, 0, 0)); 
-	}
-	else if (pWnd->GetDlgCtrlID() == IDC_BUTTON_DEVIDE)
-	{
-		ButtonCntlDevide.EnableWindowsTheming(FALSE);     
-		ButtonCntlDevide.SetFaceColor(ButtonColorDevide);
-		ButtonCntlDevide.SetTextColor(RGB(0, 0, 0)); 
-	}
-	else if (pWnd->GetDlgCtrlID() == IDC_BUTTON_MULTIPLY)
-	{
-		ButtonCntlMultiply.EnableWindowsTheming(FALSE);  
-		ButtonCntlMultiply.SetFaceColor(ButtonColorMultiply);
-		ButtonCntlMultiply.SetTextColor(RGB(0, 0, 0)); 
-	}
-	else if (pWnd->GetDlgCtrlID() == IDC_BUTTON_DELALL)
-	{
-		ButtonCntlDelel.EnableWindowsTheming(FALSE);
-		ButtonCntlDelel.SetFaceColor(ButtonOtherOper);
-		ButtonCntlDelel.SetTextColor(RGB(0, 0, 0));
-	}
-	else if (pWnd->GetDlgCtrlID() == IDC_BUTTON_CHSIGN)
-	{
-		ButtonCntlChSign.EnableWindowsTheming(FALSE);
-		ButtonCntlChSign.SetFaceColor(ButtonOtherOper);
-		ButtonCntlChSign.SetTextColor(RGB(0, 0, 0));
-	}
-	else if (pWnd->GetDlgCtrlID() == IDC_BUTTON_Mod)
-	{
-		ButtonCntlMod.EnableWindowsTheming(FALSE);
-		ButtonCntlMod.SetFaceColor(ButtonOtherOper);
-		ButtonCntlMod.SetTextColor(RGB(0, 0, 0));
-	}
-	// TODO:  Вернуть другое значение дескриптора кисти, если оно не определено по умолчанию
-	return hbr;
 }
 
 void CCalculatorDlg::OnBnClickedButtonMatrix()
