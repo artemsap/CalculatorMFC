@@ -10,18 +10,17 @@ public:
 		CreateMatrix(rows, cols);
 	}
 
-	Matrix(std::vector<std::vector<CEdit*>>& CEditMatrix)
-	{
-		CreateMatrix(CEditMatrix.size(), CEditMatrix[0].size());
-		Convert(CEditMatrix);
-	}
-
-	int size()
+	const int size() const
 	{
 		return matrix_data.size();
 	}
 
 	std::vector<T>& operator[](int i)
+	{
+		return matrix_data[i];
+	}
+
+	const std::vector<T>& operator[](int i) const
 	{
 		return matrix_data[i];
 	}
@@ -42,30 +41,27 @@ public:
 		return matrix_res;
 	}
 
-	void Convert(std::vector<std::vector<CEdit*>>& CEditMatrix)
+	bool operator== (const Matrix<T> matrix_left) const
 	{
-		for (int i = 0; i != CEditMatrix.size(); ++i)
-		{
-			for (int j = 0; j != CEditMatrix[0].size(); ++j)
-			{
-				CString sWindowText;
-				CEditMatrix[i][j]->GetWindowText(sWindowText);
-				matrix_data[i][j] = _ttof(sWindowText);
-			}
-		}
-	}
+		if (matrix_left.size() != matrix_data.size())
+			return false;
 
-	void ConvertToCEdit(std::vector<std::vector<CEdit*>>& CEditMatrix)
-	{
-		for (int i = 0; i != CEditMatrix.size(); ++i)
+		for (int i = 0; i != matrix_left.size(); ++i)
 		{
-			for (int j = 0; j != CEditMatrix[0].size(); ++j)
+			if (matrix_left[i].size() != matrix_data[i].size())
+				return false;
+		}
+
+		for (int i = 0; i != matrix_left.size(); ++i)
+		{
+			for (int j = 0; j != matrix_left[i].size(); ++j)
 			{
-				CString sWindowText;
-				sWindowText.Format(_T("%g"), matrix_data[i][j]);
-				CEditMatrix[i][j]->SetWindowText(sWindowText);
+				if (matrix_left[i][j] != matrix_data[i][j])
+					return false;
 			}
 		}
+
+		return true;
 	}
 
 private:

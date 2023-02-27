@@ -145,13 +145,15 @@ void MatrixMult::OnBnClickedButtonMult()
 	{
 		DeleteMatrix(ResultMatrix);
 
-		Matrix<double> left_matrix(MatrixLeft);
-		Matrix<double> right_matrix(MatrixRight);
+		Matrix<double> left_matrix(MatrixLeft.size(), MatrixLeft[0].size());
+		Matrix<double> right_matrix(MatrixRight.size(), MatrixRight[0].size());
+		Convert(MatrixLeft, left_matrix);
+		Convert(MatrixRight, right_matrix);
 
 		CreateEmtpyMatrix(ResultMatrix, offset_x + (MatrixLeft.size() + MatrixRight[0].size() + 2) * EditBlockSize, offset_y, MatrixLeft.size(), MatrixRight[0].size(), EditBlockSize);
 
 		Matrix<double> res = Matrix<double>::multiply(left_matrix, right_matrix);
-		res.ConvertToCEdit(ResultMatrix);
+		ConvertToCEdit(ResultMatrix, res);
 	}
 }
 

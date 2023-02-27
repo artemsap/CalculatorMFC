@@ -50,6 +50,32 @@ private:
 
 	void ReDrawAll(bool IsFirst);
 
+	void Convert(std::vector<std::vector<CEdit*>>& CEditMatrix, Matrix<double>& matrix_data)
+	{
+		for (int i = 0; i != CEditMatrix.size(); ++i)
+		{
+			for (int j = 0; j != CEditMatrix[0].size(); ++j)
+			{
+				CString sWindowText;
+				CEditMatrix[i][j]->GetWindowText(sWindowText);
+				matrix_data[i][j] = _ttof(sWindowText);
+			}
+		}
+	}
+
+	void ConvertToCEdit(std::vector<std::vector<CEdit*>>& CEditMatrix, Matrix<double>& matrix_data)
+	{
+		for (int i = 0; i != CEditMatrix.size(); ++i)
+		{
+			for (int j = 0; j != CEditMatrix[0].size(); ++j)
+			{
+				CString sWindowText;
+				sWindowText.Format(_T("%g"), matrix_data[i][j]);
+				CEditMatrix[i][j]->SetWindowText(sWindowText);
+			}
+		}
+	}
+
 public:
 	virtual BOOL OnInitDialog();
 	virtual BOOL DestroyWindow();
